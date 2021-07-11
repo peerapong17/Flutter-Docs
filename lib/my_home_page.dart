@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_docs/container_page.dart';
+import 'package:flutter_docs/API/api_page.dart';
+import 'package:flutter_docs/Form/form_page.dart';
+import 'package:flutter_docs/get_started_page.dart';
 import 'package:flutter_docs/section_card.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -43,7 +45,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              SectionCard(text: "Container"),
+              SectionCard(
+                text: "API",
+                color: Color(0xffe196ff),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ApiPage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "Form",
+                color: Color(0xff9dff94),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FormPage(),
+                  ),
+                ),
+              ),
               SectionCard(
                 text: "Drawer",
                 color: Color(0xffffcf94),
@@ -56,11 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 text: "Button",
                 color: Color(0xff9dff94),
               ),
-              SectionCard(
-                text: "Form",
-                color: Color(0xffffcf94),
-              ),
-              SectionCard(text: "API"),
             ],
           ),
         ],

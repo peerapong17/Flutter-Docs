@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'container_page.dart';
 
 class SectionCard extends StatelessWidget {
   SectionCard({Key? key, this.color, required this.text, this.onTap})
