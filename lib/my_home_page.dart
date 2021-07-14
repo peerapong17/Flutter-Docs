@@ -4,6 +4,10 @@ import 'package:flutter_docs/API/api_page.dart';
 import 'package:flutter_docs/Form/form_page.dart';
 import 'package:flutter_docs/get_started_page.dart';
 import 'package:flutter_docs/section_card.dart';
+import 'package:flutter_docs/steam/steam_page.dart';
+
+import 'ListView/list_view_page.dart';
+import 'PopUp/pop_up_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -66,16 +70,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               SectionCard(
-                text: "Drawer",
+                text: "SteamBuilder",
                 color: Color(0xffffcf94),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SteamPage(),
+                  ),
+                ),
               ),
               SectionCard(
-                text: "Router",
+                text: "ListView",
                 color: Color(0xffe196ff),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListViewPage(),
+                  ),
+                ),
               ),
               SectionCard(
-                text: "Button",
+                text: "Pop Up",
                 color: Color(0xff9dff94),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PopUpPage(),
+                  ),
+                ),
               ),
             ],
           ),
