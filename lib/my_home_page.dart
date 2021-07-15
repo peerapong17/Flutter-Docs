@@ -6,6 +6,7 @@ import 'package:flutter_docs/get_started_page.dart';
 import 'package:flutter_docs/section_card.dart';
 import 'package:flutter_docs/steam/steam_page.dart';
 
+import 'Grid/grid_page.dart';
 import 'ListView/list_view_page.dart';
 import 'PopUp/pop_up_page.dart';
 
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SectionCard(
                 text: "ListView",
-                color: Color(0xffe196ff),
+                color: Color(0xff94ffd8),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -91,11 +92,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SectionCard(
                 text: "Pop Up",
-                color: Color(0xff9dff94),
+                color: Color(0xff9874f2),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => PopUpPage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "Grid",
+                color: Color(0xffe196ff),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GridPage(),
                   ),
                 ),
               ),

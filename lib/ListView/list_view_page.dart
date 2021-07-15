@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/ListView/top_movies.dart';
-
+import '../Model/Movies.dart';
 import 'movie_list.dart';
 import 'movie_types.dart';
 
@@ -51,15 +51,11 @@ class ListViewPage extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        topMovies('assets/images/pic1.jpg'),
-                        topMovies('assets/images/pic2.jpg'),
-                        topMovies('assets/images/pic3.jpg'),
-                        topMovies('assets/images/pic1.jpg'),
-                        topMovies('assets/images/pic2.jpg'),
-                        topMovies('assets/images/pic3.jpg'),
-                        topMovies('assets/images/pic1.jpg'),
-                        topMovies('assets/images/pic2.jpg'),
-                        topMovies('assets/images/pic3.jpg'),
+                        ...movieList.map(
+                          (movie) {
+                            return topMovies(movie['image']!);
+                          },
+                        ),
                       ],
                     ),
                   ],
@@ -71,21 +67,12 @@ class ListViewPage extends StatelessWidget {
                   width: double.infinity,
                   child: ListView(
                     children: [
-                      movieList('LOKI', 'Action', 'assets/images/pic1.jpg'),
-                      movieList('WANDA VISION', 'Action', 'assets/images/pic2.jpg'),
-                      movieList('TRAIN TO BUSAN', 'Action', 'assets/images/pic3.jpg'),
-                      movieList('LOKI', 'Action', 'assets/images/pic1.jpg'),
-                      movieList('WANDA VISION', 'Action', 'assets/images/pic2.jpg'),
-                      movieList('TRAIN TO BUSAN', 'Action', 'assets/images/pic3.jpg'),
-                      movieList('LOKI', 'Action', 'assets/images/pic1.jpg'),
-                      movieList('WANDA VISION', 'Action', 'assets/images/pic2.jpg'),
-                      movieList('TRAIN TO BUSAN', 'Action', 'assets/images/pic3.jpg'),
-                      movieList('LOKI', 'Action', 'assets/images/pic1.jpg'),
-                      movieList('WANDA VISION', 'Action', 'assets/images/pic2.jpg'),
-                      movieList('TRAIN TO BUSAN', 'Action', 'assets/images/pic3.jpg'),
-                      movieList('LOKI', 'Action', 'assets/images/pic1.jpg'),
-                      movieList('WANDA VISION', 'Action', 'assets/images/pic2.jpg'),
-                      movieList('TRAIN TO BUSAN', 'Action', 'assets/images/pic3.jpg'),
+                      ...movieList.map(
+                        (movie) {
+                          return movieTile(
+                              movie['name']!, movie['type']!, movie['image']!);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -96,10 +83,4 @@ class ListViewPage extends StatelessWidget {
       ),
     );
   }
-
-  
-
-  
-
-  
 }
