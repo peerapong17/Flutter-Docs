@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_docs/model/user_model.dart';
+import 'package:flutter_docs/API/image_api_page.dart';
+import 'package:flutter_docs/API/weather_api_page.dart';
 import 'package:flutter_docs/model/user_model.dart';
 import 'package:flutter_docs/my_home_page.dart';
-import 'package:http/http.dart' as http;
 
 class ApiPage extends StatefulWidget {
   const ApiPage({Key? key}) : super(key: key);
@@ -13,19 +13,8 @@ class ApiPage extends StatefulWidget {
 }
 
 class _ApiPageState extends State<ApiPage> {
-  List<UserModel> images = [];
-  int count = 0;
-  fetchUser() async {
-    count++;
-    var response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/photos/$count'));
-    var decodedJson = json.decode(response.body);
-    var userModel = UserModel.fromJson(decodedJson);
-    setState(() {
-      images.add(userModel);
-    });
-  }
-
+  var _selectedIndex = 0;
+  var page = [ImageApiPage(), WeatherApiPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,27 +35,27 @@ class _ApiPageState extends State<ApiPage> {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: images.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Text(
-                  images[index].title!,
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(height: 20,),
-                Image.network(images[index].url!)
-              ],
-            ),
-          );
+      body: page[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Picture API',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Weather API',
+          ),
+        ],
+        elevation: 5,
+        backgroundColor: Colors.grey.shade300,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue[800],
+        onTap: (value) {
+          setState(() {
+            _selectedIndex = value;
+          });
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: fetchUser,
       ),
     );
   }
