@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/API/api_page.dart';
+import 'package:flutter_docs/Authentication/account_page.dart';
 import 'package:flutter_docs/Form/form_page.dart';
-import 'package:flutter_docs/get_started_page.dart';
-import 'package:flutter_docs/section_card.dart';
+import 'package:flutter_docs/Home/get_started_page.dart';
+import 'package:flutter_docs/Home/section_card.dart';
 import 'package:flutter_docs/steam/steam_page.dart';
-
-import 'Grid/grid_page.dart';
-import 'ListView/list_view_page.dart';
-import 'PopUp/pop_up_page.dart';
+import '../Grid/grid_page.dart';
+import '../ListView/list_view_page.dart';
+import '../PopUp/pop_up_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -107,6 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => GridPage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "Authentication",
+                color: Color(0xff6b6b6b),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AccountPage(),
                   ),
                 ),
               ),

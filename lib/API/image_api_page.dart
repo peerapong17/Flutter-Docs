@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/Model/user_model.dart';
-import 'package:flutter_docs/my_home_page.dart';
 
 class ImageApiPage extends StatefulWidget {
   const ImageApiPage({ Key? key }) : super(key: key);
