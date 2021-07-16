@@ -1,10 +1,12 @@
 class ValidationMixin {
+  RegExp emailValid = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   String? checkPassword(String? value) {
     //return null if valid
     if (value == null || value.isEmpty) {
       return "Please Enter Password";
     }
-    if (value.length < 4) {
+    if (value.length < 6) {
       return "Password must be at least 4 characters";
     }
 
@@ -16,7 +18,7 @@ class ValidationMixin {
     if (value == null || value.isEmpty) {
       return "Please Enter Email";
     }
-    if (!value.contains('@')) {
+    if (!emailValid.hasMatch(value)) {
       return "Please Enter a valid Email";
     }
 
