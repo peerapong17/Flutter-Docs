@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_docs/Authentication/welcome_page.dart';
 import 'package:flutter_docs/Form/reusable_input_decoration.dart';
 import 'package:flutter_docs/Mixins/validation_mixin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'Model/toast.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -49,7 +52,6 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin {
                   },
                   validator: emailValidator,
                   keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
                   style: TextStyle(fontSize: 20),
                   decoration:
                       reusableInputDecoration("Email", Icons.account_circle),
@@ -86,6 +88,15 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin {
                                   email: email, password: password)
                               .then(
                             (value) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return WelcomePage();
+                                  },
+                                ),
+                                (route) => false,
+                              );
                               fToast!.showToast(
                                 child: toast(
                                     "Registerd Succesfully",
@@ -99,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin {
                         } on FirebaseException catch (e) {
                           fToast!.showToast(
                             child: toast(e.message!,
-                                Colors.red.shade200.withOpacity(0.8), Icons.highlight_off),
+                                Colors.red.shade200.withOpacity(0.8), Icons.close),
                             gravity: ToastGravity.BOTTOM,
                             toastDuration: Duration(seconds: 2),
                           );

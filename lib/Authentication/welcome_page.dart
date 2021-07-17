@@ -1,8 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_docs/Home/my_home_page.dart';
+import 'package:flutter_docs/Authentication/account_page.dart';
+import 'package:flutter_docs/Authentication/todo_screen.dart';
 import 'package:flutter_docs/Mixins/validation_mixin.dart';
+import 'package:flutter_docs/steam/steam_builder_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'Model/alert_dialog.dart';
+import 'Model/toast.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -13,7 +18,10 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
   FToast? fToast;
-  FirebaseAuth auth = FirebaseAuth.instance;
+  TextEditingController todoInput = TextEditingController();
+
+  CollectionReference _todoCollection =
+      FirebaseFirestore.instance.collection("todo");
 
   void initState() {
     super.initState();
@@ -24,38 +32,98 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text(
-            "Welcome ${auth.currentUser?.email ?? "das"}",
-            style: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              auth.signOut().then(
-                (data) {
-                  fToast!.showToast(
-                    child: toast(
-                        "Logged out Succesfully",
-                        Colors.greenAccent.shade200.withOpacity(0.8),
-                        Icons.check),
-                    gravity: ToastGravity.BOTTOM,
-                    toastDuration: Duration(seconds: 2),
-                  );
-                  return Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return MyHomePage();
-                      },
-                    ),
-                  );
-                },
-              );
-            },
-            child: Text("Logout"),
+      appBar: AppBar(
+        title: Text('WELCOME'),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return alertDialogLogout(
+                        context,
+                        fToast,
+                        "Would You Like To Sign Out?",
+                        "Thank You For Using Our Application", () {
+                      auth.signOut().then(
+                        (data) {
+                          fToast!.showToast(
+                            child: toast(
+                                "Logged out Succesfully",
+                                Colors.greenAccent.shade200.withOpacity(0.8),
+                                Icons.check),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: Duration(seconds: 2),
+                          );
+                          return Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return AccountPage();
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    });
+                  },
+                );
+              },
+            ),
           ),
         ],
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection("todo").snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> data =
+                      snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                  return TodoScreen(todoText: data['Todo']);
+                });
+          }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print(auth.currentUser!.uid);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('TODO'),
+                content: TextField(
+                  controller: todoInput,
+                  autofocus: true,
+                  textInputAction: TextInputAction.go,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      hintText: "What would you like to do today?"),
+                ),
+                actions: <Widget>[
+                  new TextButton(
+                    child: new Text('Submit'),
+                    onPressed: () async {
+                      await _todoCollection.add(
+                        {"Todo": todoInput.text.toUpperCase()},
+                      );
+                      todoInput.clear();
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              );
+            },
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

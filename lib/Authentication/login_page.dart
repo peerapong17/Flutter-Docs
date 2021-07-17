@@ -4,7 +4,8 @@ import 'package:flutter_docs/Authentication/welcome_page.dart';
 import 'package:flutter_docs/Form/reusable_input_decoration.dart';
 import 'package:flutter_docs/Mixins/validation_mixin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:form_field_validator/form_field_validator.dart';
+
+import 'Model/toast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -48,6 +49,7 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                     });
                   },
                   validator: emailValidator,
+                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
                   autofocus: true,
                   style: TextStyle(fontSize: 20),
@@ -85,13 +87,14 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                                   email: email, password: password)
                               .then(
                             (value) {
-                              Navigator.pushReplacement(
+                              Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return WelcomePage();
                                   },
                                 ),
+                                (route) => false,
                               );
                               fToast!.showToast(
                                 child: toast(
@@ -109,7 +112,7 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                             child: toast(
                                 e.message!,
                                 Colors.red.shade200.withOpacity(0.8),
-                                Icons.highlight_off),
+                                Icons.close),
                             gravity: ToastGravity.BOTTOM,
                             toastDuration: Duration(seconds: 2),
                           );

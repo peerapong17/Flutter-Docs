@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/Authentication/register_page.dart';
 import 'package:flutter_docs/Authentication/login_page.dart';
+import 'package:flutter_docs/Authentication/welcome_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -9,43 +11,52 @@ class AccountPage extends StatefulWidget {
   _AccountPageState createState() => _AccountPageState();
 }
 
+FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
 class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: Colors.white70,
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LoginPage();
-                    },
-                  ),
-                );
-              },
-              child: Text('Login'),
+    if (firebaseAuth.currentUser != null) {
+      return WelcomePage();
+    } else {
+      return Scaffold(
+        body: Center(
+          child: Container(
+            color: Colors.white70,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoginPage();
+                        },
+                      ),
+                    );
+                  },
+                  child: Text('Login'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return RegisterPage();
+                        },
+                      ),
+                    );
+                  },
+                  child: Text('Register'),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return RegisterPage();
-                    },
-                  ),
-                );
-              },
-              child: Text('Register'),
-            ),
-          ],
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
