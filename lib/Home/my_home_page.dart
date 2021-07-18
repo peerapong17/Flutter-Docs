@@ -5,6 +5,7 @@ import 'package:flutter_docs/Authentication/account_page.dart';
 import 'package:flutter_docs/Form/form_page.dart';
 import 'package:flutter_docs/Home/get_started_page.dart';
 import 'package:flutter_docs/Home/section_card.dart';
+import 'package:flutter_docs/Map/map_page.dart';
 import 'package:flutter_docs/steam/steam_page.dart';
 import '../Grid/grid_page.dart';
 import '../ListView/list_view_page.dart';
@@ -117,6 +118,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => AccountPage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "Map",
+                color: Color(0xff9dff94),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MapPage(),
                   ),
                 ),
               ),

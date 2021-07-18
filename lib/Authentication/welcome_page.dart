@@ -86,9 +86,22 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
             return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
+                  print(
+                      "This is a documentID ${snapshot.data!.docs[index].id.characters}");
+                  print(
+                      "This is a Data ${snapshot.data!.docs[index].get("Todo")}");
+                  print(
+                      "This is a another way of getting all data ${snapshot.data!.docs[index].data()}");
+                  print(
+                      "This is a spicific data ${FirebaseFirestore.instance.collection("todo").doc("3U16Z65vysKkB6mDJqVI").get()}");
                   Map<String, dynamic> data =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
-                  return TodoScreen(todoText: data['Todo']);
+                  // print(data);
+                  return TodoScreen(
+                    todoText: data['Todo'],
+                    documentId:
+                        snapshot.data!.docs[index].id.characters.toString(),
+                  );
                 });
           }),
       floatingActionButton: FloatingActionButton(

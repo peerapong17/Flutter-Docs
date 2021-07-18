@@ -1,11 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class TodoScreen extends StatelessWidget {
+class TodoScreen extends StatefulWidget {
   final String todoText;
-  const TodoScreen({
-    Key? key,
-    required this.todoText,
-  }) : super(key: key);
+  final String documentId;
+  const TodoScreen({Key? key, required this.todoText, required this.documentId})
+      : super(key: key);
+
+  @override
+  _TodoScreenState createState() => _TodoScreenState();
+}
+
+class _TodoScreenState extends State<TodoScreen> {
+  Future? todo;
+  bool isEditing = false;
+  TextEditingController todoInput = TextEditingController();
+
+  Future<void> updateTodo() {
+    return FirebaseFirestore.instance
+        .collection('todo')
+        .doc(widget.documentId)
+        .update({'Todo': todoInput.text.toUpperCase()})
+        .then((value) => print("Todo Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  Future<void> deleteTodo() {
+    return FirebaseFirestore.instance
+        .collection('todo')
+        .doc(widget.documentId)
+        .delete()
+        .then((value) => print("Todo Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
+  }
+
+  Future queryOneTodo() {
+    return FirebaseFirestore.instance
+        .collection('todo')
+        .doc(widget.documentId)
+        .get();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +65,67 @@ class TodoScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        todoText,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      isEditing
+                          ? Container(
+                              width: 250,
+                              child: TextField(
+                                onSubmitted: (String value) async {
+                                  setState(() {
+                                    isEditing = !isEditing;
+                                  });
+                                  setState(() {
+                                    todoInput.text = value;
+                                  });
+                                  await updateTodo();
+                                },
+                                controller: todoInput,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            )
+                          : Text(
+                              widget.todoText,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                       Row(
                         children: [
+                          isEditing
+                              ? IconButton(
+                                  splashColor: Colors.pink.shade200,
+                                  tooltip: "Edit",
+                                  onPressed: () async {
+                                    setState(() {
+                                      isEditing = !isEditing;
+                                    });
+                                    await updateTodo();
+                                  },
+                                  icon: Icon(Icons.edit),
+                                )
+                              : IconButton(
+                                  splashColor: Colors.pink.shade200,
+                                  tooltip: "Edit",
+                                  onPressed: () async {
+                                    setState(() {
+                                      isEditing = !isEditing;
+                                    });
+                                    // var data =await queryOneTodo();
+                                    setState(() {
+                                      todoInput.text = widget.todoText;
+                                    });
+                                  },
+                                  icon: Icon(Icons.edit),
+                                ),
                           IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit),
-                          ),
-                          IconButton(
-                            onPressed: () {},
+                            splashColor: Colors.pink.shade200,
+                            tooltip: "Delete",
+                            onPressed: () {
+                              deleteTodo();
+                            },
                             icon: Icon(Icons.delete),
                           ),
                         ],
