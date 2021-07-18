@@ -6,6 +6,7 @@ import 'package:flutter_docs/Mixins/validation_mixin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'Model/toast.dart';
+import 'forget_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TextFormField(
                   onSaved: (String? value) {
@@ -51,7 +52,6 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                   validator: emailValidator,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
                   style: TextStyle(fontSize: 20),
                   decoration:
                       reusableInputDecoration("Email", Icons.account_circle),
@@ -71,11 +71,25 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                   decoration: reusableInputDecoration(
                       "Password", Icons.enhanced_encryption),
                 ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ForgetPasswordPage();
+                        },
+                      ),
+                    );
+                  },
+                  child: Text('Forget Password?'),
+                ),
                 SizedBox(
                   height: 20,
                 ),
                 Container(
                   height: 47,
+                  width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
                       FocusManager.instance.primaryFocus?.unfocus();
@@ -103,7 +117,7 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                                         .withOpacity(0.8),
                                     Icons.check),
                                 gravity: ToastGravity.BOTTOM,
-                                toastDuration: Duration(seconds: 2),
+                                toastDuration: Duration(seconds: 5),
                               );
                             },
                           );
@@ -114,7 +128,7 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                                 Colors.red.shade200.withOpacity(0.8),
                                 Icons.close),
                             gravity: ToastGravity.BOTTOM,
-                            toastDuration: Duration(seconds: 2),
+                            toastDuration: Duration(seconds: 5),
                           );
                         }
                       }

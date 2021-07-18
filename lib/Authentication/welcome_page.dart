@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/Authentication/account_page.dart';
 import 'package:flutter_docs/Authentication/todo_screen.dart';
@@ -22,6 +23,7 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
 
   CollectionReference _todoCollection =
       FirebaseFirestore.instance.collection("todo");
+  FirebaseAuth user = FirebaseAuth.instance;
 
   void initState() {
     super.initState();
@@ -48,24 +50,24 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
                         context,
                         fToast,
                         "Would You Like To Sign Out?",
-                        "Thank You For Using Our Application", () {
-                      auth.signOut().then(
+                        "Thank You For Using Our Application", () async {
+                      await user.signOut().then(
                         (data) {
-                          fToast!.showToast(
-                            child: toast(
-                                "Logged out Succesfully",
-                                Colors.greenAccent.shade200.withOpacity(0.8),
-                                Icons.check),
-                            gravity: ToastGravity.BOTTOM,
-                            toastDuration: Duration(seconds: 2),
-                          );
-                          return Navigator.pushReplacement(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) {
                                 return AccountPage();
                               },
                             ),
+                          );
+                          fToast!.showToast(
+                            child: toast(
+                                "Logged out Succesfully",
+                                Colors.greenAccent.shade200.withOpacity(0.8),
+                                Icons.check),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: Duration(seconds: 5),
                           );
                         },
                       );
@@ -78,7 +80,10 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("todo").snapshots(),
+          stream: _todoCollection
+              .doc(user.currentUser!.uid)
+              .collection('2')
+              .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -89,11 +94,8 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
                   print(
                       "This is a documentID ${snapshot.data!.docs[index].id.characters}");
                   print(
-                      "This is a Data ${snapshot.data!.docs[index].get("Todo")}");
-                  print(
-                      "This is a another way of getting all data ${snapshot.data!.docs[index].data()}");
-                  print(
-                      "This is a spicific data ${FirebaseFirestore.instance.collection("todo").doc("3U16Z65vysKkB6mDJqVI").get()}");
+                      "This is all data ${snapshot.data!.docs[index].data()}");
+
                   Map<String, dynamic> data =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
                   // print(data);
@@ -113,9 +115,19 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
               return AlertDialog(
                 title: Text('TODO'),
                 content: TextField(
+                  onSubmitted: (String value) async {
+                    Navigator.pop(context);
+                    await _todoCollection
+                        .doc(user.currentUser!.uid)
+                        .collection('2')
+                        .add(
+                      {"Todo": value.toUpperCase()},
+                    );
+                    todoInput.clear();
+                  },
                   controller: todoInput,
                   autofocus: true,
-                  textInputAction: TextInputAction.go,
+                  textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       hintText: "What would you like to do today?"),
@@ -124,11 +136,14 @@ class _WelcomePageState extends State<WelcomePage> with ValidationMixin {
                   new TextButton(
                     child: new Text('Submit'),
                     onPressed: () async {
-                      await _todoCollection.add(
+                      Navigator.pop(context);
+                      await _todoCollection
+                          .doc(user.currentUser!.uid)
+                          .collection('2')
+                          .add(
                         {"Todo": todoInput.text.toUpperCase()},
                       );
                       todoInput.clear();
-                      Navigator.pop(context);
                     },
                   )
                 ],

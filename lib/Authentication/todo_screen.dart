@@ -1,5 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'Model/alert_dialog.dart';
+import 'Model/toast.dart';
+import 'account_page.dart';
 
 class TodoScreen extends StatefulWidget {
   final String todoText;
@@ -12,33 +18,39 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
+  FToast? fToast;
   Future? todo;
   bool isEditing = false;
   TextEditingController todoInput = TextEditingController();
+  FirebaseAuth user = FirebaseAuth.instance;
+  CollectionReference _todoCollection =
+      FirebaseFirestore.instance.collection("todo");
 
   Future<void> updateTodo() {
-    return FirebaseFirestore.instance
-        .collection('todo')
+    return _todoCollection
+        .doc(user.currentUser!.uid)
+        .collection('2')
         .doc(widget.documentId)
-        .update({'Todo': todoInput.text.toUpperCase()})
-        .then((value) => print("Todo Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .update({'Todo': todoInput.text.toUpperCase()}).then((value) {
+      print("Todo Updated");
+    }).catchError((error) => print("Failed to update user: $error"));
   }
 
   Future<void> deleteTodo() {
-    return FirebaseFirestore.instance
-        .collection('todo')
+    return _todoCollection
+        .doc(user.currentUser!.uid)
+        .collection('2')
         .doc(widget.documentId)
         .delete()
-        .then((value) => print("Todo Deleted"))
-        .catchError((error) => print("Failed to delete user: $error"));
+        .then((value) {
+      print("Todo Deleted");
+    }).catchError((error) => print("Failed to delete user: $error"));
   }
 
-  Future queryOneTodo() {
-    return FirebaseFirestore.instance
-        .collection('todo')
-        .doc(widget.documentId)
-        .get();
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast!.init(context);
   }
 
   @override
@@ -113,7 +125,6 @@ class _TodoScreenState extends State<TodoScreen> {
                                     setState(() {
                                       isEditing = !isEditing;
                                     });
-                                    // var data =await queryOneTodo();
                                     setState(() {
                                       todoInput.text = widget.todoText;
                                     });
@@ -124,7 +135,19 @@ class _TodoScreenState extends State<TodoScreen> {
                             splashColor: Colors.pink.shade200,
                             tooltip: "Delete",
                             onPressed: () {
-                              deleteTodo();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return alertDialogLogout(
+                                      context,
+                                      fToast,
+                                      "Are you sure?",
+                                      "This todo will be deleted", () {
+                                    deleteTodo();
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                              );
                             },
                             icon: Icon(Icons.delete),
                           ),
