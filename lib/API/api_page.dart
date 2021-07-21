@@ -13,7 +13,7 @@ class ApiPage extends StatefulWidget {
 
 class _ApiPageState extends State<ApiPage> {
   var _selectedIndex = 0;
-  var page = [ImageApiPage(), WeatherApiPage()];
+  List<StatefulWidget> page = [ImageApiPage(), WeatherApiPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
