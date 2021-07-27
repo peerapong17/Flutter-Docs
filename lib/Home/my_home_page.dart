@@ -7,6 +7,8 @@ import 'package:flutter_docs/Form/form_page.dart';
 import 'package:flutter_docs/Home/get_started_page.dart';
 import 'package:flutter_docs/Home/section_card.dart';
 import 'package:flutter_docs/Map/map_page.dart';
+import 'package:flutter_docs/Provider/provider_page.dart';
+import 'package:flutter_docs/Sqflite/home_page.dart';
 import 'package:flutter_docs/steam/steam_page.dart';
 import '../Grid/grid_page.dart';
 import '../ListView/list_view_page.dart';
@@ -139,6 +141,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => BlocPage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "Provider",
+                color: Color(0xff538ee0),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProviderPage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "Sqflite",
+                color: Color(0xff94ffd8),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(),
                   ),
                 ),
               ),

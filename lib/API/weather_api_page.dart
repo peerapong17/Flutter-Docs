@@ -28,7 +28,6 @@ class _WeatherApiPageState extends State<WeatherApiPage> {
     var response = await http
         .get(Uri.parse('$MAIN_URL?q=$input&appid=$API_KEY&units=metric'));
     var decodedJson = json.decode(response.body);
-    print(decodedJson);
     WeatherModel weatherModel = WeatherModel.fromJson(decodedJson);
     setState(() {
       weatherData.add(weatherModel);
