@@ -6,6 +6,7 @@ import 'package:flutter_docs/Bloc/bloc_page.dart';
 import 'package:flutter_docs/Form/form_page.dart';
 import 'package:flutter_docs/Home/get_started_page.dart';
 import 'package:flutter_docs/Home/section_card.dart';
+import 'package:flutter_docs/ImagePicker/image_picker.dart';
 import 'package:flutter_docs/Map/map_page.dart';
 import 'package:flutter_docs/Provider/provider_page.dart';
 import 'package:flutter_docs/Sqflite/home_page.dart';
@@ -161,6 +162,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => HomePage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "ImagePicker",
+                color: Color(0xff6b6b6b),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ImagePickerPage(),
                   ),
                 ),
               ),
