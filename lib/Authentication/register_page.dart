@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_docs/Authentication/welcome_page.dart';
+import 'package:flutter_docs/Authentication/Component/snack_bar.dart';
+import 'package:flutter_docs/Authentication/todo_page.dart';
 import 'package:flutter_docs/Form/reusable_input_decoration.dart';
 import 'package:flutter_docs/Mixins/validation_mixin.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import 'Model/toast.dart';
+import 'Services/auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -18,15 +17,7 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
-  FToast? fToast;
-
-  
-
-  void initState() {
-    super.initState();
-    fToast = FToast();
-    fToast!.init(context);
-  }
+  Auth auth = new Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +37,7 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin {
               children: [
                 TextFormField(
                   onSaved: (String? value) {
-                    setState(() {
-                      email = value ?? '';
-                    });
+                    email = value ?? '';
                   },
                   validator: emailValidator,
                   keyboardType: TextInputType.emailAddress,
@@ -61,13 +50,10 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin {
                 ),
                 TextFormField(
                   onSaved: (value) {
-                    setState(() {
-                      password = value ?? '';
-                    });
+                    password = value ?? '';
                   },
                   validator: passwordValidator,
                   obscureText: true,
-                  
                   style: TextStyle(fontSize: 20),
                   decoration: reusableInputDecoration(
                       "Password", Icons.enhanced_encryption),
@@ -78,41 +64,27 @@ class _RegisterPageState extends State<RegisterPage> with ValidationMixin {
                 Container(
                   height: 47,
                   child: ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       FocusManager.instance.primaryFocus?.unfocus();
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         try {
-                          await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                                  email: email, password: password)
-                              .then(
+                          auth.register(email, password).then(
                             (value) {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return WelcomePage();
+                                    return TodoPage();
                                   },
                                 ),
                                 (route) => false,
                               );
-                              fToast!.showToast(
-                                child: toast(
-                                    "Registerd Succesfully",
-                                    Colors.greenAccent.shade200
-                                        .withOpacity(0.8), Icons.check),
-                                gravity: ToastGravity.BOTTOM,
-                                toastDuration: Duration(seconds: 5),
-                              );
                             },
                           );
                         } on FirebaseException catch (e) {
-                          fToast!.showToast(
-                            child: toast(e.message!,
-                                Colors.red.shade200.withOpacity(0.8), Icons.close),
-                            gravity: ToastGravity.BOTTOM,
-                            toastDuration: Duration(seconds: 5),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            snackBar(e),
                           );
                         }
                       }

@@ -1,57 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'Services/auth.dart';
+import 'Services/todo.dart';
 
-import 'Model/alert_dialog.dart';
-import 'Model/toast.dart';
-import 'account_page.dart';
-
-class TodoScreen extends StatefulWidget {
+class TodoCard extends StatefulWidget {
   final String todoText;
   final String documentId;
-  const TodoScreen({Key? key, required this.todoText, required this.documentId})
+  const TodoCard({Key? key, required this.todoText, required this.documentId})
       : super(key: key);
 
   @override
-  _TodoScreenState createState() => _TodoScreenState();
+  _TodoCardState createState() => _TodoCardState();
 }
 
-class _TodoScreenState extends State<TodoScreen> {
-  FToast? fToast;
-  Future? todo;
+class _TodoCardState extends State<TodoCard> {
   bool isEditing = false;
   TextEditingController todoInput = TextEditingController();
-  FirebaseAuth user = FirebaseAuth.instance;
-  CollectionReference _todoCollection =
-      FirebaseFirestore.instance.collection("todo");
-
-  Future<void> updateTodo() {
-    return _todoCollection
-        .doc(user.currentUser!.uid)
-        .collection('2')
-        .doc(widget.documentId)
-        .update({'Todo': todoInput.text.toUpperCase()}).then((value) {
-      print("Todo Updated");
-    }).catchError((error) => print("Failed to update user: $error"));
-  }
-
-  Future<void> deleteTodo() {
-    return _todoCollection
-        .doc(user.currentUser!.uid)
-        .collection('2')
-        .doc(widget.documentId)
-        .delete()
-        .then((value) {
-      print("Todo Deleted");
-    }).catchError((error) => print("Failed to delete user: $error"));
-  }
-
-  void initState() {
-    super.initState();
-    fToast = FToast();
-    fToast!.init(context);
-  }
+  Auth auth = new Auth();
+  Todo todo = new Todo();
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +28,7 @@ class _TodoScreenState extends State<TodoScreen> {
           Container(
             height: 90,
             child: Card(
+              elevation: 7,
               shape: BeveledRectangleBorder(
                 borderRadius: BorderRadius.circular(7.0),
               ),
@@ -81,14 +47,12 @@ class _TodoScreenState extends State<TodoScreen> {
                           ? Container(
                               width: 250,
                               child: TextField(
-                                onSubmitted: (String value) async {
-                                  setState(() {
-                                    isEditing = !isEditing;
-                                  });
-                                  setState(() {
-                                    todoInput.text = value;
-                                  });
-                                  await updateTodo();
+                                onSubmitted: (String value) {
+                                  isEditing = !isEditing;
+                                  todoInput.text = value;
+                                  setState(() {});
+                                  todo.updateTodo(
+                                      widget.documentId, todoInput.text);
                                 },
                                 controller: todoInput,
                                 style: TextStyle(
@@ -110,11 +74,12 @@ class _TodoScreenState extends State<TodoScreen> {
                               ? IconButton(
                                   splashColor: Colors.pink.shade200,
                                   tooltip: "Edit",
-                                  onPressed: () async {
+                                  onPressed: () {
                                     setState(() {
                                       isEditing = !isEditing;
                                     });
-                                    await updateTodo();
+                                    todo.updateTodo(
+                                        widget.documentId, todoInput.text);
                                   },
                                   icon: Icon(Icons.edit),
                                 )
@@ -122,12 +87,9 @@ class _TodoScreenState extends State<TodoScreen> {
                                   splashColor: Colors.pink.shade200,
                                   tooltip: "Edit",
                                   onPressed: () async {
-                                    setState(() {
-                                      isEditing = !isEditing;
-                                    });
-                                    setState(() {
-                                      todoInput.text = widget.todoText;
-                                    });
+                                    isEditing = !isEditing;
+                                    todoInput.text = widget.todoText;
+                                    setState(() {});
                                   },
                                   icon: Icon(Icons.edit),
                                 ),
@@ -135,19 +97,7 @@ class _TodoScreenState extends State<TodoScreen> {
                             splashColor: Colors.pink.shade200,
                             tooltip: "Delete",
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return alertDialogLogout(
-                                      context,
-                                      fToast,
-                                      "Are you sure?",
-                                      "This todo will be deleted", () {
-                                    deleteTodo();
-                                    Navigator.of(context).pop();
-                                  });
-                                },
-                              );
+                              todo.deleteTodo(widget.documentId);
                             },
                             icon: Icon(Icons.delete),
                           ),
@@ -157,7 +107,6 @@ class _TodoScreenState extends State<TodoScreen> {
                   ),
                 ),
               ),
-              elevation: 7,
             ),
           ),
         ],

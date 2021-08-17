@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/Authentication/register_page.dart';
 import 'package:flutter_docs/Authentication/login_page.dart';
-import 'package:flutter_docs/Authentication/welcome_page.dart';
+import 'package:flutter_docs/Authentication/todo_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     if (firebaseAuth.currentUser != null) {
-      return WelcomePage();
+      return TodoPage();
     } else {
       return Scaffold(
         body: Center(
