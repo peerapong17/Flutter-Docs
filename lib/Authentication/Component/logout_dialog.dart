@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_docs/Authentication/Services/auth.dart';
 import 'package:flutter_docs/Authentication/account_page.dart';
 
-import '../todo_page.dart';
-
 Future<dynamic> logoutDialog(BuildContext context, Auth auth) {
   return showDialog(
     context: context,

@@ -2,7 +2,6 @@
 //
 //     final task = taskFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 Todo taskFromJson(String str) => Todo.fromJson(json.decode(str));

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/API/image_api_page.dart';
 import 'package:flutter_docs/API/weather_api_page.dart';
@@ -36,7 +35,7 @@ class _ApiPageState extends State<ApiPage> {
       ),
       body: page[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Picture API',

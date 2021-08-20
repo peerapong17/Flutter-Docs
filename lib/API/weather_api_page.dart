@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_docs/API/services/search_data.dart';
 import 'package:flutter_docs/Model/weather_model.dart';
-import 'package:http/http.dart' as http;
 
 class WeatherApiPage extends StatefulWidget {
   const WeatherApiPage({Key? key}) : super(key: key);
@@ -13,25 +11,12 @@ class WeatherApiPage extends StatefulWidget {
 
 class _WeatherApiPageState extends State<WeatherApiPage> {
   final inputController = TextEditingController();
-  final API_KEY = "ca0873a42d04802307eab7bfa6d10f75";
-  final MAIN_URL = "https://api.openweathermap.org/data/2.5/weather";
   List<WeatherModel> weatherData = [];
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     inputController.dispose();
     super.dispose();
-  }
-
-  fetchData(String input) async {
-    weatherData = [];
-    var response = await http
-        .get(Uri.parse('$MAIN_URL?q=$input&appid=$API_KEY&units=metric'));
-    var decodedJson = json.decode(response.body);
-    WeatherModel weatherModel = WeatherModel.fromJson(decodedJson);
-    setState(() {
-      weatherData.add(weatherModel);
-    });
   }
 
   @override
@@ -44,13 +29,6 @@ class _WeatherApiPageState extends State<WeatherApiPage> {
         child: ListView(
           children: [
             TextField(
-              onChanged: (value) {
-                if (value.isEmpty) {
-                  setState(() {
-                    weatherData = [];
-                  });
-                }
-              },
               controller: inputController,
               keyboardType: TextInputType.text,
               style: TextStyle(fontSize: 25),
@@ -59,8 +37,10 @@ class _WeatherApiPageState extends State<WeatherApiPage> {
                     EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                 suffixIcon: IconButton(
                   iconSize: 35,
-                  onPressed: () {
-                    fetchData(inputController.text);
+                  onPressed: () async {
+                    WeatherModel data = await searchData(inputController.text);
+                    weatherData.add(data);
+                    setState(() {});
                   },
                   icon: Icon(Icons.search),
                 ),
@@ -129,7 +109,7 @@ class _WeatherApiPageState extends State<WeatherApiPage> {
                                     fontSize: 40, fontWeight: FontWeight.w500),
                               );
                             },
-                          ),
+                          ).toList(),
                           Spacer(),
                         ],
                       ),

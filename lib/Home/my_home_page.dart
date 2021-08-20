@@ -4,6 +4,7 @@ import 'package:flutter_docs/API/api_page.dart';
 import 'package:flutter_docs/Authentication/account_page.dart';
 import 'package:flutter_docs/Bloc/bloc_page.dart';
 import 'package:flutter_docs/Form/form_page.dart';
+import 'package:flutter_docs/Future/future_builder_page.dart';
 import 'package:flutter_docs/Home/get_started_page.dart';
 import 'package:flutter_docs/Home/section_card.dart';
 import 'package:flutter_docs/ImagePicker/image_picker.dart';
@@ -172,6 +173,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ImagePickerPage(),
+                  ),
+                ),
+              ),
+              SectionCard(
+                text: "FutureBuilder",
+                color: Color(0xfff2938d),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FutureBuilderPage(),
                   ),
                 ),
               ),

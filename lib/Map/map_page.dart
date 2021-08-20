@@ -78,7 +78,7 @@ class MapPageState extends State<MapPage> {
                     position: LatLng(13.7297, 100.4358),
                     infoWindow: InfoWindow(
                         title: "Intermedical Hostpital",
-                        snippet: "Lat${lat} Long${long}"))
+                        snippet: "Lat$lat Long$long"))
               ].toSet(),
             ),
 

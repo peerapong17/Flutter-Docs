@@ -48,33 +48,24 @@ class ListViewPage extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   scrollDirection: Axis.horizontal,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ...movieList.map(
-                          (movie) {
-                            return topMovies(movie['image']!);
-                          },
-                        ),
-                      ],
+                    ...movieList.map(
+                      (movie) {
+                        return topMovies(movie['image']!);
+                      },
                     ),
                   ],
                 ),
               ),
               Expanded(
-                child: Container(
-                  height: height * 0.5,
-                  width: double.infinity,
-                  child: ListView(
-                    children: [
-                      ...movieList.map(
-                        (movie) {
-                          return movieTile(
-                              movie['name']!, movie['type']!, movie['image']!);
-                        },
-                      ),
-                    ],
-                  ),
+                child: ListView(
+                  children: [
+                    ...movieList.map(
+                      (movie) {
+                        return movieTile(
+                            movie['name']!, movie['type']!, movie['image']!);
+                      },
+                    ).toList(),
+                  ],
                 ),
               ),
             ],

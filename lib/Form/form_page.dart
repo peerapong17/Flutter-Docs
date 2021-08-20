@@ -31,9 +31,7 @@ class _FormPageState extends State<FormPage> with ValidationMixin {
               children: [
                 TextFormField(
                   onSaved: (String? value) {
-                    setState(() {
                       email = value;
-                    });
                   },
                   validator: checkEmail,
                   keyboardType: TextInputType.emailAddress,
@@ -47,9 +45,7 @@ class _FormPageState extends State<FormPage> with ValidationMixin {
                 ),
                 TextFormField(
                   onSaved: (value) {
-                    setState(() {
                       password = value;
-                    });
                   },
                   validator: checkPassword,
                   obscureText: true,

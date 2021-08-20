@@ -8,7 +8,7 @@ class TodoMain extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Todo todo = new Todo();
+  final Todo todo = new Todo();
 
   @override
   Widget build(BuildContext context) {

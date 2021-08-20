@@ -5,9 +5,9 @@ import 'package:flutter_docs/Sqflite/Model/sqflite_helper.dart';
 import 'Model/task_model.dart';
 
 class TodoCard extends StatefulWidget {
-  String task;
-  int id;
-  Function refresh;
+  final String task;
+  final int id;
+  final Function refresh;
   TodoCard({
     Key? key,
     required this.task,
@@ -40,16 +40,16 @@ class _TodoCardState extends State<TodoCard> {
                     ? Container(
                         width: 250,
                         child: TextField(
-                          onSubmitted: (String value){
+                          onSubmitted: (String value) {
                             Todo taskModel = Todo.fromJson({
-                                "id": widget.id,
-                                "task": value == '' ? widget.task : value
-                              });
-                              todoProvider.updateTodo(taskModel);
-                              widget.refresh();
-                              setState(() {
-                                isEditting = !isEditting;
-                              });
+                              "id": widget.id,
+                              "task": value == '' ? widget.task : value
+                            });
+                            todoProvider.updateTodo(taskModel);
+                            widget.refresh();
+                            setState(() {
+                              isEditting = !isEditting;
+                            });
                           },
                           controller: taskInput,
                           onChanged: (String value) {
