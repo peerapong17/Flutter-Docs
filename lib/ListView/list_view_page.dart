@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_docs/ListView/models/movie_types.dart';
+import 'package:flutter_docs/ListView/movie_type_list.dart';
 import 'package:flutter_docs/ListView/top_movies.dart';
 import '../Model/Movies.dart';
-import 'movie_list.dart';
-import 'movie_types.dart';
+import 'movie_tile.dart';
+import './models/movie_types.dart';
 
 class ListViewPage extends StatelessWidget {
   const ListViewPage({Key? key}) : super(key: key);
@@ -28,43 +30,36 @@ class ListViewPage extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.all(10),
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    movieTypes('Action'),
-                    movieTypes('Adventure'),
-                    movieTypes('Romance'),
-                    movieTypes('Sci-Fi'),
-                    movieTypes('Horror'),
-                    movieTypes('Fantasy'),
-                    movieTypes('Comedy'),
-                    movieTypes('Thriller'),
-                  ],
+                  children: List.generate(
+                    movieTypes.length,
+                    (index) {
+                      return movieTypeList(movieTypes[index]);
+                    },
+                  ),
                 ),
               ),
               Container(
                 color: Colors.white,
                 height: height * 0.45,
                 width: double.infinity,
-                child: ListView(
+                child: ListView.builder(
                   padding: EdgeInsets.all(10),
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    ...movieList.map(
-                      (movie) {
-                        return topMovies(movie['image']!);
-                      },
-                    ),
-                  ],
+                  itemCount: movies.length,
+                  itemBuilder: (context, index) {
+                    return topMovies(movies[index]['image']!);
+                  },
                 ),
               ),
               Expanded(
                 child: ListView(
                   children: [
-                    ...movieList.map(
+                    ...movies.map(
                       (movie) {
-                        return movieTile(
+                        return movieList(
                             movie['name']!, movie['type']!, movie['image']!);
                       },
-                    ).toList(),
+                    ),
                   ],
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Container movieTile(String name, String type, String image) {
+Container movieList(String name, String type, String image) {
     return Container(
       margin: EdgeInsets.all(7),
       decoration: BoxDecoration(

@@ -9,7 +9,7 @@ class FutureBuilderPage extends StatefulWidget {
 
 class _FutureBuilderPageState extends State<FutureBuilderPage> {
   Future<String> delayTime() async {
-    await Future.delayed(const Duration(milliseconds: 9000), () {
+    await Future.delayed(const Duration(milliseconds: 3000), () {
       print("inside future delay");
     });
     print("outside Future delay");
@@ -36,9 +36,8 @@ class _FutureBuilderPageState extends State<FutureBuilderPage> {
             );
           }),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            delayTime();
-            setState(() {});
+          onPressed: () async {
+            await delayTime();
           },
           child: Icon(Icons.plus_one)),
     );

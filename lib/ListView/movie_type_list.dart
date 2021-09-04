@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Container movieTypes(String type) {
+Container movieTypeList(String type) {
     return Container(
       margin: EdgeInsets.only(right: 10),
       padding: EdgeInsets.symmetric(horizontal: 8),

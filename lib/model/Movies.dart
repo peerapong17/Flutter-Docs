@@ -1,5 +1,5 @@
 
-  final List<Map<String, String>>movieList = [
+  final List<Map<String, String>>movies = [
   {
     "name": "LOKI",
     "image": "assets/images/pic1.jpg",
