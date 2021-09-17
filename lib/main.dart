@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      // Initialize FlutterFire
+      // Initialize FlutterFireBase
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
         // Check for errors

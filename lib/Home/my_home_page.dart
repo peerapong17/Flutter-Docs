@@ -1,20 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_docs/API/api_page.dart';
-import 'package:flutter_docs/Authentication/account_page.dart';
-import 'package:flutter_docs/Bloc/bloc_page.dart';
-import 'package:flutter_docs/Form/form_page.dart';
-import 'package:flutter_docs/Future/future_builder_page.dart';
-import 'package:flutter_docs/Home/get_started_page.dart';
-import 'package:flutter_docs/Home/section_card.dart';
-import 'package:flutter_docs/ImagePicker/image_picker.dart';
-import 'package:flutter_docs/Map/map_page.dart';
-import 'package:flutter_docs/Provider/provider_page.dart';
-import 'package:flutter_docs/Sqflite/home_page.dart';
-import 'package:flutter_docs/steam/steam_page.dart';
-import '../Grid/grid_page.dart';
-import '../ListView/list_view_page.dart';
-import '../PopUp/pop_up_page.dart';
+import 'components/section_card.dart';
+import 'model/all_sections.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -45,148 +32,15 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SectionCard(
-                text: "Get Started",
-                color: Color(0xff94ffd8),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ContainerPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "API",
-                color: Color(0xffe196ff),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ApiPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Form",
-                color: Color(0xff9dff94),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FormPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "SteamBuilder",
-                color: Color(0xffffcf94),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SteamPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "ListView",
-                color: Color(0xff94ffd8),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListViewPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Pop Up",
-                color: Color(0xff9874f2),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PopUpPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Grid",
-                color: Color(0xffe196ff),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GridPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Authentication",
-                color: Color(0xff6b6b6b),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AccountPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Map",
-                color: Color(0xff9dff94),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MapPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Bloc",
-                color: Color(0xfff2938d),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BlocPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Provider",
-                color: Color(0xff538ee0),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProviderPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "Sqflite",
-                color: Color(0xff94ffd8),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "ImagePicker",
-                color: Color(0xff6b6b6b),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ImagePickerPage(),
-                  ),
-                ),
-              ),
-              SectionCard(
-                text: "FutureBuilder",
-                color: Color(0xfff2938d),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FutureBuilderPage(),
-                  ),
-                ),
-              ),
-            ],
+            children: List.generate(
+              sections.length,
+              (index) {
+                return SectionCard(
+                    color: sections[index].color,
+                    name: sections[index].name,
+                    page: sections[index].page);
+              },
+            ),
           ),
         ],
       ),

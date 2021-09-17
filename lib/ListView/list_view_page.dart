@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_docs/ListView/models/movie_types.dart';
-import 'package:flutter_docs/ListView/movie_type_list.dart';
-import 'package:flutter_docs/ListView/top_movies.dart';
 import '../Model/Movies.dart';
-import 'movie_tile.dart';
+import 'components/movie_tile.dart';
+import 'components/movie_type_list.dart';
+import 'components/top_movies.dart';
 import './models/movie_types.dart';
 
 class ListViewPage extends StatelessWidget {

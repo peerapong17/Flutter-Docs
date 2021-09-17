@@ -10,14 +10,14 @@ class FutureBuilderPage extends StatefulWidget {
 class _FutureBuilderPageState extends State<FutureBuilderPage> {
   Future<String> delayTime() async {
     await Future.delayed(const Duration(milliseconds: 3000), () {
-      print("inside future delay");
+      print("after future delay");
     });
-    print("outside Future delay");
     return "finished";
   }
 
   @override
   Widget build(BuildContext context) {
+    print('render - Scaffold');
     return Scaffold(
       appBar: AppBar(
         title: Text("FutureBuilderSection"),
@@ -37,7 +37,7 @@ class _FutureBuilderPageState extends State<FutureBuilderPage> {
           }),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            await delayTime();
+            setState(() {});
           },
           child: Icon(Icons.plus_one)),
     );

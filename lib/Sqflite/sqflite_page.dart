@@ -5,14 +5,14 @@ import 'package:flutter_docs/Sqflite/todo_card.dart';
 import 'Model/sqflite_helper.dart';
 import 'Model/task_model.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SqflitePage extends StatefulWidget {
+  const SqflitePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _SqflitePageState createState() => _SqflitePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SqflitePageState extends State<SqflitePage> {
   TextEditingController taskInput = TextEditingController();
   TodoProvider todoProvider = TodoProvider();
   bool isEditting = false;

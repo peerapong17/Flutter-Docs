@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SectionCard extends StatelessWidget {
-  SectionCard({Key? key, this.color, required this.text, this.onTap})
+  SectionCard(
+      {Key? key, required this.color, required this.name, required this.page})
       : super(key: key);
 
-  final String text;
-  final Color? color;
-  final Future<dynamic> Function()? onTap;
+  final String name;
+  final Color color;
+  final Widget page;
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,20 @@ class SectionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8), // <-- Radius
               ),
               elevation: 10,
-              primary: color != null ? color : Color(0xff7d8be3),
+              primary: color,
               padding: EdgeInsets.all(17),
               textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            onPressed: onTap,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => page,
+              ),
+            ),
             child: Row(
               children: [
                 Text(
-                  text,
+                  name,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
                 ),
