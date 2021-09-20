@@ -5,8 +5,6 @@ import 'package:flutter_docs/Form/reusable_input_decoration.dart';
 import 'package:flutter_docs/Mixins/validation_mixin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'Model/toast.dart';
-
 class ForgetPasswordPage extends StatefulWidget {
   const ForgetPasswordPage({Key? key}) : super(key: key);
 
@@ -103,16 +101,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage>
                                   .showSnackBar(snackBar);
                             },
                           );
-                        } on FirebaseException catch (e) {
-                          fToast!.showToast(
-                            child: toast(
-                                e.message!,
-                                Colors.red.shade200.withOpacity(0.8),
-                                Icons.close),
-                            gravity: ToastGravity.BOTTOM,
-                            toastDuration: Duration(seconds: 2),
-                          );
-                        }
+                        } on FirebaseException catch (e) {}
                       }
                     },
                     child: Text(

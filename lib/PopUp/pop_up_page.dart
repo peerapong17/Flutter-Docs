@@ -5,7 +5,8 @@ import 'Model/alert_dialog.dart';
 import 'Model/prompt_dialog.dart';
 
 class PopUpPage extends StatefulWidget {
-  const PopUpPage({Key? key}) : super(key: key);
+  static const routeName = 'Pop-Up';
+
 
   @override
   _PopUpPageState createState() => _PopUpPageState();

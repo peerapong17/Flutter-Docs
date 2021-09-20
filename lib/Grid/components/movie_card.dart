@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../movie_detail_page.dart';
 
-Card movieCard(String? image, String? name, BuildContext context) {
+Card movieCard(String image, String name, BuildContext context) {
     return Card(
       shadowColor: Colors.black,
       clipBehavior: Clip.antiAlias,
@@ -11,7 +11,7 @@ Card movieCard(String? image, String? name, BuildContext context) {
         borderRadius: BorderRadius.circular(7.0),
       ),
       child: Ink.image(
-        image: AssetImage(image!),
+        image: AssetImage(image),
         fit: BoxFit.fill,
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.2),

@@ -5,7 +5,8 @@ import 'package:flutter_docs/Authentication/login_page.dart';
 import 'package:flutter_docs/Authentication/todo_page.dart';
 
 class AccountPage extends StatefulWidget {
-  const AccountPage({Key? key}) : super(key: key);
+  static const routeName = 'Account';
+
 
   @override
   _AccountPageState createState() => _AccountPageState();

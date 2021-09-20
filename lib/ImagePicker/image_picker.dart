@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerPage extends StatefulWidget {
-  const ImagePickerPage({Key? key}) : super(key: key);
+  static const routeName = 'ImagePicker';
 
   @override
   _ImagePickerPageState createState() => _ImagePickerPageState();

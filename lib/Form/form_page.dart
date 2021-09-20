@@ -3,7 +3,7 @@ import 'package:flutter_docs/Form/reusable_input_decoration.dart';
 import 'package:flutter_docs/mixins/validation_mixin.dart';
 
 class FormPage extends StatefulWidget {
-  const FormPage({Key? key}) : super(key: key);
+  static const routeName = 'FormState';
 
   @override
   _FormPageState createState() => _FormPageState();

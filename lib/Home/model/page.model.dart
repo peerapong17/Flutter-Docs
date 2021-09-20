@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Section {
   String name;
   Color color;
-  Widget page;
+  String routeName;
 
-  Section({required this.name, required this.color, required this.page});
+  Section({required this.name, required this.color, required this.routeName});
 }

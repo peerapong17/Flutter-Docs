@@ -6,7 +6,8 @@ import 'package:flutter_docs/ProviderSection/stateful_provider.page.dart';
 import 'package:flutter_docs/ProviderSection/stateless_provider.page.dart';
 
 class ProviderPage extends StatefulWidget {
-  const ProviderPage({Key? key}) : super(key: key);
+  static const routeName = 'Provider';
+
 
   @override
   _ProviderPageState createState() => _ProviderPageState();

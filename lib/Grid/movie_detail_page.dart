@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MovieDetailPage extends StatelessWidget {
-  final String? image;
-  final String? name;
-  const MovieDetailPage({Key? key, this.image, this.name}) : super(key: key);
+  final String image;
+  final String name;
+  const MovieDetailPage({Key? key,required this.image,required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

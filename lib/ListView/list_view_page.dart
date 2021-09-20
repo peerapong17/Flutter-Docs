@@ -7,7 +7,7 @@ import 'components/top_movies.dart';
 import './models/movie_types.dart';
 
 class ListViewPage extends StatelessWidget {
-  const ListViewPage({Key? key}) : super(key: key);
+  static const routeName = 'ListView';
 
   @override
   Widget build(BuildContext context) {

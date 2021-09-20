@@ -3,8 +3,7 @@ import 'package:flutter_docs/Steam-Builder/steam_builder_two.dart';
 import 'package:flutter_docs/Steam-Builder/steam_builder_one.dart';
 
 class SteamBuilderPage extends StatefulWidget {
-  const SteamBuilderPage({Key? key}) : super(key: key);
-
+  static const routeName = "SteamBuilder";
   @override
   _SteamBuilderPageState createState() => _SteamBuilderPageState();
 }

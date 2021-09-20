@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 class SectionCard extends StatelessWidget {
   SectionCard(
-      {Key? key, required this.color, required this.name, required this.page})
-      : super(key: key);
+      {Key? key, required this.color, required this.name, required this.routeName});
 
   final String name;
   final Color color;
-  final Widget page;
+  final String routeName;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +30,7 @@ class SectionCard extends StatelessWidget {
               padding: EdgeInsets.all(17),
               textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => page,
-              ),
-            ),
+            onPressed: () => Navigator.pushNamed(context, routeName),
             child: Row(
               children: [
                 Text(

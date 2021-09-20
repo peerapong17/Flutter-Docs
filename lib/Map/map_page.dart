@@ -4,6 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class MapPage extends StatefulWidget {
+  static const routeName = 'GoogleMap';
+
   @override
   State<MapPage> createState() => MapPageState();
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_docs/Authentication/todo_page.dart';
 import 'package:flutter_docs/Form/reusable_input_decoration.dart';
 import 'package:flutter_docs/Mixins/validation_mixin.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'Component/google_btn.dart';
 import 'Component/snack_bar.dart';
 import 'Services/auth.dart';
@@ -16,7 +17,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with ValidationMixin {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
@@ -42,9 +43,10 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                   children: [
                     TextFormField(
                       onSaved: (String? value) {
-                        email = value ?? '';
+                        email = value!;
                       },
-                      validator: emailValidator,
+                      validator: MultiValidator(
+                          [EmailValidator(errorText: 'Email is not valid')]),
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.emailAddress,
                       style: TextStyle(fontSize: 20),
@@ -56,9 +58,12 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                     ),
                     TextFormField(
                       onSaved: (value) {
-                        password = value ?? '';
+                        password = value!;
                       },
-                      validator: passwordValidator,
+                      validator: MultiValidator([
+                        MinLengthValidator(6,
+                            errorText: 'Password should be 6 or more')
+                      ]),
                       obscureText: true,
                       style: TextStyle(fontSize: 20),
                       decoration: reusableInputDecoration(
@@ -93,23 +98,18 @@ class _LoginPageState extends State<LoginPage> with ValidationMixin {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             try {
-                              await auth.login(email, password).then(
-                                (value) {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return TodoPage();
-                                      },
-                                    ),
-                                    (route) => false,
-                                  );
-                                },
+                              await auth.login(email, password);
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return TodoPage();
+                                  },
+                                ),
+                                (route) => false,
                               );
                             } on FirebaseException catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                snackBar(e),
-                              );
+                              showAlertSnackbar(context: context, message: e);
                             }
                           }
                         },

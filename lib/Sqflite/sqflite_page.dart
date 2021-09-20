@@ -6,7 +6,7 @@ import 'Model/sqflite_helper.dart';
 import 'Model/task_model.dart';
 
 class SqflitePage extends StatefulWidget {
-  const SqflitePage({Key? key}) : super(key: key);
+  static const routeName = 'Sqflite';
 
   @override
   _SqflitePageState createState() => _SqflitePageState();

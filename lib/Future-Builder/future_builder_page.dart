@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FutureBuilderPage extends StatefulWidget {
-  const FutureBuilderPage({Key? key}) : super(key: key);
+  static const routeName = 'FutureBuilder';
 
   @override
   _FutureBuilderPageState createState() => _FutureBuilderPageState();

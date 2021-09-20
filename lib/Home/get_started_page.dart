@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ContainerPage extends StatelessWidget {
-  const ContainerPage({Key? key}) : super(key: key);
+class GetStartedPage extends StatelessWidget {
+  static const routeName = 'GetStarted';
+
 
   @override
   Widget build(BuildContext context) {

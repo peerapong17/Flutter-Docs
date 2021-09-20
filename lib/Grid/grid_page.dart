@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../Model/Movies.dart';
 import 'components/movie_card.dart';
-import 'movie_detail_page.dart';
 
 class GridPage extends StatefulWidget {
-  const GridPage({Key? key}) : super(key: key);
+  static const routeName = 'Grid';
 
   @override
   _GridPageState createState() => _GridPageState();
@@ -25,20 +24,18 @@ class _GridPageState extends State<GridPage> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
         crossAxisCount: 2,
-        // children: [
-        //   ...movieList.map(
-        //     (movie) {
-        //       return movieCard(movie['image'], movie['name']);
-        //     },
-        //   ),
-        // ],
-        children: List.generate(
-          movies.length,
-          (index) {
-            return movieCard(
-                movies[index]['image'], movies[index]['name'], context);
+        children: movies.map(
+          (movie) {
+            return movieCard(movie['image']!, movie['name']!, context);
           },
-        ),
+        ).toList(),
+        // children: List.generate(
+        //   movies.length,
+        //   (index) {
+        //     return movieCard(
+        //         movies[index]['image']!, movies[index]['name']!, context);
+        //   },
+        // ),
       ),
     );
   }
